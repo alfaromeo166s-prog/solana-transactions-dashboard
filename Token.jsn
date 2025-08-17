@@ -1,0 +1,70 @@
+{
+  "mint": "99zqUzjGohamrYygoyXTEb191iom3LCimxCA75FX5Tg",
+  "decimals": 9,
+  "signature": "44fwkT1EzBlwudzrCy3fvCrbLwMbrVbtsd760ZyE6cKaegNupBpq"
+}{
+  "name": "MyProgram",
+  "instructions": [
+    {
+      "name": "do_fizzbuzz",
+      "accounts": [
+        { "name": "user", "is_mut": true, "is_signer": true }
+      ],
+      "args": [
+        { "name": "n", "type": "u32" }
+      ]
+    }
+  ]
+}fn test_idl() {
+    match parse_idl("backend/idl.json") {
+        Ok(idl) => println!("{:#?}", idl),
+        Err(e) => println!("Errore nel parsing: {}", e),
+    }
+          }{
+  "name": "MyProgram",
+  "instructions": [
+    {
+      "name": "do_fizzbuzz",
+      "accounts": [
+        { "name": "user", "is_mut": true, "is_signer": true }
+      ],
+      "args": [
+        { "name": "n", "type": "u32" }
+      ]
+    }
+  ]
+}use std::fs;
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+struct Idl {
+    name: String,
+    instructions: Vec<Instruction>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Instruction {
+    name: String,
+    accounts: Vec<AccountMeta>,
+    args: Vec<Arg>,
+}
+
+#[derive(Debug, Deserialize)]
+struct AccountMeta {
+    name: String,
+    is_mut: bool,
+    is_signer: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct Arg {
+    name: String,
+    #[serde(rename = "type")]
+    arg_type: String,
+}
+
+fn test_idl() {
+    let content = fs::read_to_string("backend/idl.json").unwrap();
+    let idl: Idl = serde_json::from_str(&content).unwrap();
+    println!("{:#?}", idl);
+      }
