@@ -1,0 +1,14 @@
+{
+  "name": "MyProgram",
+  "instructions": [
+    {
+      "name": "do_fizzbuzz",
+      "accounts": [
+        { "name": "user", "is_mut": true, "is_signer": true }
+      ],
+      "args": [
+        { "name": "n", "type": "u32" }
+      ]
+    }
+  ]
+}
