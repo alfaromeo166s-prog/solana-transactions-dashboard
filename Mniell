@@ -1,0 +1,87 @@
+use axum::{Router, routing::get, Json};
+use std::net::SocketAddr;
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct Transaction {
+    signature: String,
+    timestamp: u64,
+    status: String,
+    authority: String,
+    instruction: String,
+    n: u32,
+}
+
+async fn get_transactions() -> Json<Vec<Transaction>> {
+    let txs = vec![
+        Transaction {
+            signature: "5gNf...".into(),
+            timestamp: 1699999999,
+            status: "confirmed".into(),
+            authority: "Fv9g...".into(),
+            instruction: "do_fizzbuzz".into(),
+            n: 42,
+        }
+    ];
+    Json(txs)
+}
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/transactions", get(get_transactions));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    println!("Listening on {}", addr);
+    axum::Server::bind(&addr).serve(app.into_make_service()).await.unwrap();
+}use serde::Deserialize;
+use std::fs;
+
+#[derive(Debug, Deserialize)]
+struct Idl {
+    name: String,
+    instructions: Vec<Instruction>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Instruction {
+    name: String,
+    accounts: Vec<Account>,
+    args: Vec<Arg>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Account {
+    name: String,
+    is_mut: bool,
+    is_signer: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct Arg {
+    name: String,
+    #[serde(rename = "type")]
+    type_: String,
+}
+
+fn parse_idl(path: &str) -> Result<Idl, Box<dyn std::error::Error>> {
+    let content = fs::read_to_string(path)?;
+    let idl: Idl = serde_json::from_str(&content)?;
+    Ok(idl)
+}{
+  "name": "MyProgram",
+  "instructions": [
+    {
+      "name": "do_fizzbuzz",
+      "accounts": [
+        { "name": "user", "is_mut": true, "is_signer": true }
+      ],
+      "args": [
+        { "name": "n", "type": "u32" }
+      ]
+    }
+  ]
+}fn test_idl() {
+    match parse_idl("idl.json") {
+        Ok(idl) => println!("{:#?}", idl),
+        Err(e) => println!("Errore nel parsing: {}", e),
+    }
+}
