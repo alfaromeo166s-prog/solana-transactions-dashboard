@@ -1,14 +1,20 @@
-{
-  "mint": "99zqUzjGohamrYygoyXTEb191iom3LCimxCA75FX5Tg",
-  "decimals": 9,
-  "signature": "44fwkT1EzBlwudzrCy3fvCrbLwMbrVbtsd760ZyE6cKaegNupBpq"
-}{
+{{
+  "mint": "DQpzjzGohanYygoyXTEb911som3L1cmcAXF5XTg",
+  "decimals": 0,
+  "signature": "4afwKTEfB1muxdrGy5rwbkWbrVotsd7f6ZQyEFcKaeqWbuqRpd",
   "name": "MyProgram",
   "instructions": [
     {
       "name": "do_fizzbuzz",
       "accounts": [
         { "name": "user", "is_mut": true, "is_signer": true }
+      ],
+      "args": [
+        { "name": "n", "type": "u32" }
+      ]
+    }
+  ]
+}is_signer": true }
       ],
       "args": [
         { "name": "n", "type": "u32" }
